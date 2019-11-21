@@ -76,7 +76,7 @@
       let coins = []
       for (let i = 0; i < 3; i++) {
         var coin = new fabric.Image(imgElement, {
-          left: getRandomInt(canvas.width),
+          left: getRandomInt((canvas.height / 20) * 25),
           top: getRandomInt(canvas.height)
         })
         coin.hasControls = coin.hasBorders = false
@@ -87,15 +87,15 @@
       }
 
       var gold = new fabric.Image(goldImgElement, {
-        left: getRandomInt(canvas.width),
-        top: getRandomInt(canvas.height),
+        left: positions[0].left * (canvas.height / 20),
+        top: positions[0].top * (canvas.height / 20),
         selectable: false
       })
       gold.scaleToWidth(canvas.height / 20)
       gold.scaleToHeight(canvas.height / 20)
       canvas.add(gold)
 
-      let index = 0
+      let index = 1
 
       var objectWasMoved = false
       canvas.on("object:moved", function(event) {
