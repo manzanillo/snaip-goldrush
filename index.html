@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div style="display:none;">
+      <img src="img/coin.png" id="coin" />
+      <img src="img/gold.png" id="gold" />
+    </div>
+    <script src="lib/fabric.js"></script>
+    <script>
+      const positions = shuffle([
+        { left: 2, top: 3 },
+        { left: 3, top: 6 },
+        { left: 4, top: 7 },
+        { left: 5, top: 6 },
+        { left: 6, top: 5 },
+        { left: 9, top: 8 },
+        { left: 2, top: 15 },
+        { left: 10, top: 17 },
+        { left: 11, top: 16 },
+        { left: 12, top: 15 },
+        { left: 13, top: 18 },
+        { left: 16, top: 3 },
+        { left: 21, top: 1 },
+        { left: 18, top: 15 },
+        { left: 19, top: 12 },
+        { left: 20, top: 14 },
+        { left: 22, top: 13 },
+        { left: 22, top: 15 },
+        { left: 23, top: 12 },
+        { left: 24, top: 14 }
+      ])
+
+      const goldImgElement = document.getElementById("gold")
+      const imgElement = document.getElementById("coin")
+
+      function getRandomInt(max) {
+        min = 0
+        max = Math.floor(max)
+        return Math.floor(Math.random() * (max - min + 1)) + min
+      }
+
+      function switchDraggingMode(element) {
+        element.lockMovementX = !element.lockMovementX
+        element.lockMovementY = !element.lockMovementY
+      }
+
+      function switchDraggingModeForList(list) {
+        list.forEach(elem => switchDraggingMode(elem))
+      }
+
+      function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5)
+      }
+
+      var canvas = new fabric.Canvas("canvas")
+
+      window.addEventListener("resize", resizeCanvas, false)
+
+      function resizeCanvas() {
+        canvas.setHeight(window.innerHeight)
+        canvas.setWidth(window.innerWidth)
+        canvas.renderAll()
+      }
+
+      // resize on init
+      resizeCanvas()
+      fabric.Image.fromURL("img/map.png", function(img) {
+        img.scaleToWidth(canvas.width)
+        img.scaleToHeight(canvas.height)
+        canvas.setBackgroundImage(img)
+        canvas.requestRenderAll()
+      })
+
+      let coins = []
+      for (let i = 0; i < 3; i++) {
+        var coin = new fabric.Image(imgElement, {
+          left: getRandomInt(canvas.width),
+          top: getRandomInt(canvas.height)
+        })
+        coin.hasControls = coin.hasBorders = false
+        coin.scaleToWidth(canvas.height / 20)
+        coin.scaleToHeight(canvas.height / 20)
+        coins.push(coin)
+        canvas.add(coin)
+      }
+
+      var gold = new fabric.Image(goldImgElement, {
+        left: getRandomInt(canvas.width),
+        top: getRandomInt(canvas.height),
+        selectable: false
+      })
+      gold.scaleToWidth(canvas.height / 20)
+      gold.scaleToHeight(canvas.height / 20)
+      canvas.add(gold)
+
+      let index = 0
+
+      var objectWasMoved = false
+      canvas.on("object:moved", function(event) {
+        objectWasMoved = true
+        if (index < positions.length) {
+          gold.set({
+            left: positions[index].left * (canvas.height / 20),
+            top: positions[index].top * (canvas.height / 20)
+          })
+          index++
+          console.log(index)
+          objectWasMoved = !objectWasMoved
+        } else {
+          switchDraggingModeForList(coins)
+          window.setTimeout(function() {
+            canvas.remove(gold)
+            showSolution()
+          }, 1000)
+        }
+      })
+
+      function showSolution() {
+        positions.forEach(function(pos) {
+          var gold = new fabric.Image(goldImgElement, {
+            left: pos.left * (canvas.height / 20),
+            top: pos.top * (canvas.height / 20),
+            selectable: false
+          })
+          gold.scaleToWidth(height / 20)
+          gold.scaleToHeight(height / 20)
+          canvas.add(gold)
+        })
+      }
+    </script>
+  </body>
+</html>
