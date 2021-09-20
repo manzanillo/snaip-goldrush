@@ -93,8 +93,8 @@
         let coins = []
         for (let i = 0; i < 3; i++) {
             var coin = new fabric.Image(imgElement, {
-                left: getRandomInt((window.innerWidth / stauchungsfaktor / 30) * 25),
-                top: Math.max(getRandomInt(15) * ((window.innerHeight - 100) / 20) + 20, 20),
+                left: Math.max(getRandomInt(20) * (window.innerWidth / stauchungsfaktor / 30), 400),
+                top: Math.max(getRandomInt(15) * ((window.innerHeight - 100) / 20) + 20, 200),
             })
             coin.hasControls = coin.hasBorders = false
             coin.scaleToWidth(canvas.height / 20)
