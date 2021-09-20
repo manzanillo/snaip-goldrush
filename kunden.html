@@ -105,7 +105,7 @@
 
         var gold = new fabric.Image(goldImgElement, {
 
-            left: positions[0].amount * (window.innerWidth / stauchungsfaktor / 30) + 40,
+            left: Math.min(positions[0].amount * (window.innerWidth / stauchungsfaktor / 30) + 40, window.innerHeight * stauchungsfaktor),
             top: positions[0].value / 10 * ((window.innerHeight - 100) / 20) + 20,
             selectable: false,
         })
