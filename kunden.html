@@ -76,7 +76,7 @@
         resizeCanvas()
         fabric.Image.fromURL('img/map-clean.png', function (img) {
             img.scaleToWidth(canvas.width)
-            img.scaleToHeight(canvas.height)
+            // img.scaleToHeight(canvas.height)
             canvas.setBackgroundImage(img)
             canvas.requestRenderAll()
         })
@@ -84,8 +84,8 @@
         let coins = []
         for (let i = 0; i < 3; i++) {
             var coin = new fabric.Image(imgElement, {
-                left: getRandomInt((canvas.height / 20) * 25),
-                top: Math.max(getRandomInt(canvas.height) - 100, 20),
+                left: getRandomInt((window.innerWidth / 30) * 25),
+                top: Math.max(getRandomInt(canvas.height) - 200, 20),
             })
             coin.hasControls = coin.hasBorders = false
             coin.scaleToWidth(canvas.height / 20)
@@ -95,12 +95,12 @@
         }
 
         var gold = new fabric.Image(goldImgElement, {
-            left: positions[0].amount * 0.9 * (canvas.height / 18) + 30,
-            top: positions[0].value / 10 * (canvas.height / 20) + 20,
+            left: positions[0].amount * (window.innerWidth / 30) + 40,
+            top: positions[0].value / 10 * (window.innerWidth / 30) + 20,
             selectable: false,
         })
-        gold.scaleToWidth(canvas.height / 20)
-        gold.scaleToHeight(canvas.height / 20)
+        gold.scaleToWidth(window.innerWidth / 30)
+        gold.scaleToHeight(window.innerWidth / 30)
         canvas.add(gold)
 
         let index = 1
@@ -110,8 +110,8 @@
             objectWasMoved = true
             if (index < positions.length) {
                 gold.set({
-                    left: (positions[index].amount * 0.9) * (canvas.width / 18) + 30,
-                    top: positions[index].value / 12 * (canvas.height / 20) + 20,
+                    left: positions[index].amount * (window.innerWidth / 30) + 40,
+                    top: positions[index].value / 10 * (window.innerWidth / 30) + 20,
                 })
                 index++
                 console.log(index)
@@ -128,8 +128,8 @@
         function showSolution() {
             positions.forEach(function (pos) {
                 var gold = new fabric.Image(goldImgElement, {
-                    left: pos.amount * 0.9 * (canvas.height / 18) + 30,
-                    top: pos.value / 12 * (canvas.height / 20) + 20,
+                    left: pos.amount * (window.innerWidth / 30) + 40,
+                    top: pos.value / 12 * (window.innerWidth / 30) + 20,
                     selectable: false,
                 })
                 gold.scaleToWidth(canvas.height / 20)
